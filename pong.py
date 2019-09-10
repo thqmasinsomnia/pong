@@ -158,7 +158,7 @@ gameDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('3 PADDLE PONG')
 
 playery = Ypaddle(BLACK, 10, 100)
-playerx = Xpaddle(WHITE, 100, 10)
+playerx = Xpaddle(BLACK, 100, 10)
 playerx2 = Xpaddle(BLACK, 100, 10)
 
 playerx.rect.x = 600
@@ -204,15 +204,16 @@ score = scoreboard()
 clock = pygame.time.Clock()
 
 foo = 0
+fum = 0
 while True:
-
+    keys = pygame.key.get_pressed()
     # check for the quit event
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
 
-    keys = pygame.key.get_pressed()
+
     if keys[pygame.K_UP]:
         playery.moveup(5)
     if keys[pygame.K_DOWN]:
@@ -252,7 +253,7 @@ while True:
         ball.rect.y = 195
         ball.velocity[0] = random.randint(4, 8)
         ball.velocity[1] = random.randint(-8, 8)
-    if ball.rect.x < 350 and (ball.rect.y < 0 or ball.rect.y > 490):
+    if ball.rect.x > 350 and (ball.rect.y < 10 or ball.rect.y > 490):
         compwins += 1
         pygame.mixer.music.load('comppoint.ogg')
         pygame.mixer.music.play(0)
@@ -277,11 +278,11 @@ while True:
         ball.velocity[0] = random.randint(-8, -4)
         ball.velocity[1] = random.randint(-8, 8)
 
-    if compwins == 11:
+    if compwins >= 11 and compwins > playerwins + 2:
         compwins = 0
         playerwins = 0
         compsets += 1
-    if playerwins == 11:
+    if playerwins >= 11 and playerwins > compwins + 2:
         compwins = 0
         playerwins = 0
         playersets += 1
