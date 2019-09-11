@@ -13,7 +13,9 @@ HEIGHT = 500
 WIDTH = 700
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
+GREEN = (0, 200, 0)
 WHITE = (255, 255, 255)
+
 
 
 class scoreboard():
@@ -35,8 +37,8 @@ class Ypaddle(pygame.sprite.Sprite):
         super().__init__()
 
         self.image = pygame.Surface([w, h])
-        self.image.fill(RED)
-        self.image.set_colorkey(RED)
+        self.image.fill(GREEN)
+        self.image.set_colorkey(GREEN)
 
         pygame.draw.rect(self.image, color, [0, 0, w, h])
         self.rect = self.image.get_rect()
@@ -59,8 +61,8 @@ class Xpaddle(pygame.sprite.Sprite):
         super().__init__()
 
         self.image = pygame.Surface([w, h])
-        self.image.fill(RED)
-        self.image.set_colorkey(RED)
+        self.image.fill(GREEN)
+        self.image.set_colorkey(GREEN)
 
         pygame.draw.rect(self.image, color, [0, 0, w, h])
         self.rect = self.image.get_rect()
@@ -83,8 +85,8 @@ class compXpaddle(pygame.sprite.Sprite):
         super().__init__()
 
         self.image = pygame.Surface([w, h])
-        self.image.fill(RED)
-        self.image.set_colorkey(RED)
+        self.image.fill(GREEN)
+        self.image.set_colorkey(GREEN)
 
         pygame.draw.rect(self.image, color, [0, 0, w, h])
         self.rect = self.image.get_rect()
@@ -109,7 +111,7 @@ class Ball(pygame.sprite.Sprite):
         self.width = w
 
         self.image = pygame.Surface([w, w])
-        self.image.fill(RED)
+        self.image.fill(GREEN)
         self.rect = self.image.get_rect()
         pygame.draw.ellipse(self.image, color, [0, 0, w, w])
         self.velocity = [random.randint(4, 8), random.randint(-8, 8)]
@@ -154,7 +156,12 @@ class Ball(pygame.sprite.Sprite):
 
 pygame.init()
 
+imgy = pygame.image.load("woody.png")
+imgx = pygame.image.load("woodx.png")
+imgball = pygame.image.load("ball2.png")
+
 gameDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
+
 pygame.display.set_caption('3 PADDLE PONG')
 
 playery = Ypaddle(BLACK, 10, 100)
@@ -171,7 +178,7 @@ playery.rect.x = 680
 playery.rect.y = 200
 
 compy = Ypaddle(BLACK, 10, 100)
-compy.rect.x = 20
+compy.rect.x = 10
 compy.rect.y = 200
 
 compx = compXpaddle(BLACK, 100, 10)
@@ -185,6 +192,16 @@ compx2.rect.y = 480
 ball = Ball(BLACK, 20)
 ball.rect.x = 345
 ball.rect.y = 195
+
+playery.image = imgy
+compy.image = imgy
+playerx.image = imgx
+playerx2.image = imgx
+compx.image = imgx
+compx2.image = imgx
+ball.image = imgball
+
+
 
 spritelist = pygame.sprite.Group()
 spritelist.add(playery)
@@ -205,6 +222,8 @@ clock = pygame.time.Clock()
 
 foo = 0
 fum = 0
+
+
 while True:
     keys = pygame.key.get_pressed()
     # check for the quit event
@@ -212,6 +231,7 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
+
 
 
     if keys[pygame.K_UP]:
@@ -225,6 +245,7 @@ while True:
         playerx.moveleft(5)
         playerx2.moveleft(5)
 
+
     if ball.velocity[0] < 0 and ball.velocity[1] > 0:
         compy.movedown(5)
     if ball.velocity[0] < 0 and ball.velocity[1] < 0:
@@ -237,12 +258,12 @@ while True:
         compx2.moveleft(5)
 
     spritelist.update()
-    gameDisplay.fill(RED)
+    gameDisplay.fill(GREEN)
 
     pygame.draw.line(gameDisplay, BLACK, [349, 0], [349, 500], 5)
     x = 0
     while x < 1000:
-        pygame.draw.line(gameDisplay, RED, [0, x], [500, x], 20)
+        pygame.draw.line(gameDisplay, GREEN, [0, x], [500, x], 20)
         x = x + 50
 
     if ball.rect.x >= 690:
