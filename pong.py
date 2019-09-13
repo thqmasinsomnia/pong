@@ -158,6 +158,9 @@ pygame.init()
 
 imgy = pygame.image.load("woody.png")
 imgx = pygame.image.load("woodx.png")
+imgey = pygame.image.load("enemywoody.png")
+imgex = pygame.image.load("enemywoodx.png")
+
 imgball = pygame.image.load("ball2.png")
 
 gameDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -194,11 +197,11 @@ ball.rect.x = 345
 ball.rect.y = 195
 
 playery.image = imgy
-compy.image = imgy
+compy.image = imgey
 playerx.image = imgx
 playerx2.image = imgx
-compx.image = imgx
-compx2.image = imgx
+compx.image = imgex
+compx2.image = imgex
 ball.image = imgball
 
 
@@ -246,10 +249,18 @@ while True:
         playerx2.moveleft(5)
 
 
-    if ball.velocity[0] < 0 and ball.velocity[1] > 0:
+
+    if compy.rect.y < ball.rect.y:
         compy.movedown(5)
-    if ball.velocity[0] < 0 and ball.velocity[1] < 0:
+    if compy.rect.y > ball.rect.y:
         compy.moveup(5)
+    if compx.rect.x < ball.rect.x or compx2.rect.x < ball.rect.x and x < 350:
+        compx.moveright(5)
+        compx2.moveright(5)
+    if (compx.rect.x > ball.rect.x or compx2.rect.x > ball.rect.x) and x < 350:
+        compx.moveleft(5)
+        compx2.moveleft(5)
+
     if ball.velocity[0] < 0 and ball.velocity[1] > 0:
         compx.moveright(5)
         compx2.moveright(5)
