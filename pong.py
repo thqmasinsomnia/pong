@@ -17,103 +17,104 @@ GREEN = (0, 200, 0)
 WHITE = (255, 255, 255)
 
 
-
-class scoreboard():
-    def updatescore(self, compwins, playerwins, compsets, playersets):
-        font = pygame.font.Font(None, 74)
-        text = font.render(str(compwins), 1, WHITE)
-        gameDisplay.blit(text, (250, 10))
-        text = font.render(str(compsets), 1, WHITE)
-        gameDisplay.blit(text, (250, 50))
-        text = font.render(str(playerwins), 1, WHITE)
-        gameDisplay.blit(text, (420, 10))
-        text = font.render(str(playersets), 1, WHITE)
-        gameDisplay.blit(text, (420, 50))
+def updatescore(computerWins, playerWins, computerSets, playerSets):
+    score_font = pygame.font.Font(None, 74)
+    score_text = score_font.render(str(computerWins), 1, WHITE)
+    gameDisplay.blit(score_text, (250, 10))
+    score_text = score_font.render(str(computerSets), 1, WHITE)
+    gameDisplay.blit(score_text, (250, 50))
+    score_text = score_font.render(str(playerWins), 1, WHITE)
+    gameDisplay.blit(score_text, (420, 10))
+    score_text = score_font.render(str(playerSets), 1, WHITE)
+    gameDisplay.blit(score_text, (420, 50))
 
 
-class Ypaddle(pygame.sprite.Sprite):
+class scoreboard:
+    pass
 
-    def __init__(self, color, w, h):
+
+class y_paddle(pygame.sprite.Sprite):
+
+    def __init__(self, y_color, w, h):
         super().__init__()
 
         self.image = pygame.Surface([w, h])
         self.image.fill(GREEN)
         self.image.set_colorkey(GREEN)
 
-        pygame.draw.rect(self.image, color, [0, 0, w, h])
+        pygame.draw.rect(self.image, y_color, [0, 0, w, h])
         self.rect = self.image.get_rect()
 
-    def moveup(self, pix):
+    def move_up(self, pix):
         self.rect.y -= pix
         if self.rect.y < 0:
             self.rect.y = 0
 
-    def movedown(self, pix):
+    def move_down(self, pix):
         self.rect.y += pix
         # Check that you are not going too far (off the screen)
         if self.rect.y > 400:
             self.rect.y = 400
 
 
-class Xpaddle(pygame.sprite.Sprite):
+class x_paddle(pygame.sprite.Sprite):
 
-    def __init__(self, color, w, h):
+    def __init__(self, colorX, w, h):
         super().__init__()
 
         self.image = pygame.Surface([w, h])
         self.image.fill(GREEN)
         self.image.set_colorkey(GREEN)
 
-        pygame.draw.rect(self.image, color, [0, 0, w, h])
+        pygame.draw.rect(self.image, colorX, [0, 0, w, h])
         self.rect = self.image.get_rect()
 
-    def moveleft(self, pix):
+    def move_left(self, pix):
         self.rect.x -= pix
         if self.rect.x < 350:
             self.rect.x = 350
 
-    def moveright(self, pix):
+    def move_right(self, pix):
         self.rect.x += pix
         # Check that you are not going too far (off the screen)
         if self.rect.x > 600:
             self.rect.x = 600
 
 
-class compXpaddle(pygame.sprite.Sprite):
+class computer_x_paddle(pygame.sprite.Sprite):
 
-    def __init__(self, color, w, h):
+    def __init__(self, colorX, w, h):
         super().__init__()
 
         self.image = pygame.Surface([w, h])
         self.image.fill(GREEN)
         self.image.set_colorkey(GREEN)
 
-        pygame.draw.rect(self.image, color, [0, 0, w, h])
+        pygame.draw.rect(self.image, colorX, [0, 0, w, h])
         self.rect = self.image.get_rect()
 
-    def moveleft(self, pix):
+    def move_left(self, pix):
         self.rect.x -= pix
         if self.rect.x < 0:
             self.rect.x = 0
 
-    def moveright(self, pix):
+    def move_right(self, pix):
         self.rect.x += pix
-        # Check that you are not going too far (off the screen)
         if self.rect.x > 250:
             self.rect.x = 250
 
 
 class Ball(pygame.sprite.Sprite):
 
-    def __init__(self, color, w):
+    def __init__(self, ball_color, w):
         super().__init__()
-        self.color = color
+        self.color = ball_color
         self.width = w
 
         self.image = pygame.Surface([w, w])
         self.image.fill(GREEN)
         self.rect = self.image.get_rect()
-        pygame.draw.ellipse(self.image, color, [0, 0, w, w])
+        pygame.draw.ellipse(self.image, ball_color, [0, 0, w, w])
         self.velocity = [random.randint(4, 8), random.randint(-8, 8)]
 
     def update(self):
@@ -167,9 +168,9 @@ gameDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
 
 pygame.display.set_caption('3 PADDLE PONG')
 
-playery = Ypaddle(BLACK, 10, 100)
-playerx = Xpaddle(BLACK, 100, 10)
-playerx2 = Xpaddle(BLACK, 100, 10)
+playery = y_paddle(BLACK, 10, 100)
+playerx = x_paddle(BLACK, 100, 10)
+playerx2 = x_paddle(BLACK, 100, 10)
 
 playerx.rect.x = 600
 playerx.rect.y = 10
@@ -180,15 +181,15 @@ playerx2.rect.y = 480
 playery.rect.x = 680
 playery.rect.y = 200
 
-compy = Ypaddle(BLACK, 10, 100)
+compy = y_paddle(BLACK, 10, 100)
 compy.rect.x = 10
 compy.rect.y = 200
 
-compx = compXpaddle(BLACK, 100, 10)
+compx = computer_x_paddle(BLACK, 100, 10)
 compx.rect.x = 20
 compx.rect.y = 10
 
-compx2 = compXpaddle(BLACK, 100, 10)
+compx2 = computer_x_paddle(BLACK, 100, 10)
 compx2.rect.x = 20
 compx2.rect.y = 480
 
@@ -203,8 +204,6 @@ playerx2.image = imgx
 compx.image = imgex
 compx2.image = imgex
 ball.image = imgball
-
-
 
 spritelist = pygame.sprite.Group()
 spritelist.add(playery)
@@ -226,7 +225,6 @@ clock = pygame.time.Clock()
 foo = 0
 fum = 0
 
-
 while True:
     keys = pygame.key.get_pressed()
     # check for the quit event
@@ -235,38 +233,34 @@ while True:
             pygame.quit()
             sys.exit()
 
-
-
     if keys[pygame.K_UP]:
-        playery.moveup(5)
+        playery.move_up(5)
     if keys[pygame.K_DOWN]:
-        playery.movedown(5)
+        playery.move_down(5)
     if keys[pygame.K_RIGHT]:
-        playerx.moveright(5)
-        playerx2.moveright(5)
+        playerx.move_right(5)
+        playerx2.move_right(5)
     if keys[pygame.K_LEFT]:
-        playerx.moveleft(5)
-        playerx2.moveleft(5)
-
-
+        playerx.move_left(5)
+        playerx2.move_left(5)
 
     if compy.rect.y < ball.rect.y:
-        compy.movedown(5)
+        compy.move_down(5)
     if compy.rect.y > ball.rect.y:
-        compy.moveup(5)
-    if compx.rect.x < ball.rect.x or compx2.rect.x < ball.rect.x and x < 350:
-        compx.moveright(5)
-        compx2.moveright(5)
-    if (compx.rect.x > ball.rect.x or compx2.rect.x > ball.rect.x) and x < 350:
-        compx.moveleft(5)
-        compx2.moveleft(5)
+        compy.move_up(5)
+    if compx.rect.x < ball.rect.x or compx2.rect.x < ball.rect.x < 340:
+        compx.move_right(5)
+        compx2.move_right(5)
+    if (compx.rect.x > ball.rect.x or compx2.rect.x > ball.rect.x) and ball.rect.x < 340:
+        compx.move_left(5)
+        compx2.move_left(5)
 
     if ball.velocity[0] < 0 and ball.velocity[1] > 0:
-        compx.moveright(5)
-        compx2.moveright(5)
+        compx.move_right(5)
+        compx2.move_right(5)
     if ball.velocity[0] < 0 and ball.velocity[1] < 0:
-        compx.moveleft(5)
-        compx2.moveleft(5)
+        compx.move_left(5)
+        compx2.move_left(5)
 
     spritelist.update()
     gameDisplay.fill(GREEN)
@@ -369,7 +363,7 @@ while True:
             playersets = 0
             foo = 0
 
-    score.updatescore(compwins, playerwins, compsets, playersets)
+    updatescore(compwins, playerwins, compsets, playersets)
     spritelist.draw(gameDisplay)
     pygame.display.flip()
     clock.tick(60)
